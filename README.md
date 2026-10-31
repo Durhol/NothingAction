@@ -43,6 +43,8 @@ It replaces standard button limitations with high-speed, multi-tier hardware tri
 - `[GLYPH]` • Physical rear Glyph LED interface synchronized rhythm pulse
 - `[CUSTOM_APP]` • Launch any user-selected third-party application package
 
+> **Essential Key Remapping Guide**: Need to disable or customize the default Nothing OS Essential Space behavior? Check out the community guide by [@z3phydev](https://github.com/z3phydev): [How-to-remap-or-disable-the-Essential-Key](https://github.com/z3phydev/How-to-remap-or-disable-the-Essential-Key).
+
 ---
 
 ## 03 // MECHANICAL BEZEL BUTTON ANIMATION (iOS 18 STYLE)
@@ -174,6 +176,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - **Author & Developer**: [Durhol](https://github.com/Durhol)
 - **Telegram**: [@Tyxap](https://t.me/Tyxap)
 - **Repository**: [github.com/Durhol/NothingAction](https://github.com/Durhol/NothingAction)
+- **Essential Key Guide**: [z3phydev/How-to-remap-or-disable-the-Essential-Key](https://github.com/z3phydev/How-to-remap-or-disable-the-Essential-Key)
 
 ---
 

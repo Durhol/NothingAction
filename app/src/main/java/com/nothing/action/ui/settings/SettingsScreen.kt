@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -173,6 +174,55 @@ fun SettingsScreen(
                             Text(text = "DETECT", fontFamily = NdotFont, fontSize = 11.sp)
                         }
                     }
+                }
+            }
+
+            // Community guide for remapping/disabling Essential Key by z3phydev
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(Color(0xFF161616))
+                        .border(1.dp, CardBorder, RoundedCornerShape(14.dp))
+                        .clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/z3phydev/How-to-remap-or-disable-the-Essential-Key")).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            try {
+                                context.startActivity(intent)
+                            } catch (_: Exception) {}
+                        }
+                        .padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Code,
+                        contentDescription = null,
+                        tint = NothingRed,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "REMAP / DISABLE ESSENTIAL KEY GUIDE",
+                            color = TextWhite,
+                            fontFamily = NdotFont,
+                            fontSize = 11.sp,
+                            letterSpacing = 1.sp
+                        )
+                        Text(
+                            text = "github.com/z3phydev/How-to-remap-or-disable-the-Essential-Key",
+                            color = TextMuted,
+                            fontSize = 10.sp
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                        contentDescription = null,
+                        tint = Color(0xFF666666),
+                        modifier = Modifier.size(16.dp)
+                    )
                 }
             }
 

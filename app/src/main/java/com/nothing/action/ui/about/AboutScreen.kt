@@ -187,6 +187,25 @@ fun AboutScreen(
                 )
             }
 
+            // Essential Key Remap Guide (by z3phydev)
+            item {
+                AboutLinkItem(
+                    title = "REMAP ESSENTIAL KEY GUIDE",
+                    subtitle = "z3phydev/How-to-remap-or-disable-the-Essential-Key",
+                    icon = Icons.Default.Code,
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/z3phydev/How-to-remap-or-disable-the-Essential-Key")).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        try {
+                            context.startActivity(intent)
+                        } catch (_: Exception) {
+                            Toast.makeText(context, "https://github.com/z3phydev/How-to-remap-or-disable-the-Essential-Key", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                )
+            }
+
             // Design System Note
             item {
                 Box(
