@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="docs/assets/demo.gif" width="760" alt="Nothing Action Engine Live Showcase" />
+<img src="docs/assets/showcase.png" width="760" alt="Nothing Action Engine Showcase" />
 
 <br/>
 
