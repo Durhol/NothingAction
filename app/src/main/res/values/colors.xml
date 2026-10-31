@@ -1,0 +1,8 @@
+<resources>
+    <color name="pure_black">#000000</color>
+    <color name="surface_dark">#121212</color>
+    <color name="card_border">#242424</color>
+    <color name="nothing_red">#D71920</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_muted">#8A8A8A</color>
+</resources>

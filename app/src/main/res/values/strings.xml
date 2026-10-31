@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Nothing Action</string>
+    <string name="accessibility_service_label">Nothing Action Key Interceptor</string>
+    <string name="accessibility_desc">Listens for clicks on physical keys (Essential Button, Volume keys) to trigger user configured actions with haptic and visual bezel feedback.</string>
+    <string name="service_active">● ACTIVE // LISTENING</string>
+    <string name="service_paused">○ DISABLED // PAUSED</string>
+</resources>

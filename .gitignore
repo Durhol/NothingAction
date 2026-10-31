@@ -1,0 +1,29 @@
+# Gradle
+.gradle/
+build/
+app/build/
+*.apk
+*.aab
+*.ap_
+
+# Local configuration
+local.properties
+.env
+*.token
+*.key
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+.kotlin/
+.navigation/
+captures/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.bak
+*.swp
