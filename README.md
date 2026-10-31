@@ -82,8 +82,8 @@ Permission: com.nothing.ketchum.permission.ENABLE (normal)
 | Model | Codename | Glyph LEDs | Dedicated Essential Key | Primary Trigger |
 |---|---|:---:|:---:|---|
 | **Nothing Phone (3a)** | `ASTEROIDS` | 36 LEDs | YES | `ScanCode 250` (Essential) |
-| **Nothing Phone (3a) Pro** | `ASTEROIDS PRO` | 36 LEDs | YES | `ScanCode 250` (Essential) |
-| **Nothing Phone (3a) Lite** | `ASTEROIDS LITE` | 26 LEDs | YES | `ScanCode 250` (Essential) |
+| **Nothing Phone (3a) Pro** | `ASTEROIDSPRO` | 36 LEDs | YES | `ScanCode 250` (Essential) |
+| **Nothing Phone (3a) Lite** | `GALAXIAN` | 26 LEDs | YES | `ScanCode 250` (Essential) |
 | **Nothing Phone (3)** | `METROID` | 625 Dots (Matrix) | YES | `ScanCode 250` / Action |
 | **Nothing Phone (4a) & (4a) Pro** | `TETRIS` | 6 / 169 LEDs | YES | `ScanCode 250` / Action |
 | **Nothing Phone (2a) & (2a) Plus** | `PACMAN` | 26 LEDs | NO | Hardware Keys |

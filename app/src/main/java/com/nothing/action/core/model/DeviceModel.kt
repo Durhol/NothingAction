@@ -39,6 +39,10 @@ object DeviceDetector {
             model.contains("A059") || product.contains("ASTEROIDS") -> {
                 Quad("NOTHING PHONE (3a)", "ASTEROIDS", 36, GlyphHardwareType.STRIP)
             }
+            // Nothing Phone (3a) Lite (A001T)
+            model.contains("A001T") || product.contains("GALAXIAN") -> {
+                Quad("NOTHING PHONE (3a) LITE", "GALAXIAN", 26, GlyphHardwareType.STRIP)
+            }
             // Nothing Phone (2a) & (2a) Plus (A142 / A142P)
             model.contains("A142P") || product.contains("PACMANPRO") -> {
                 Quad("NOTHING PHONE (2a) PLUS", "PACMAN PRO", 26, GlyphHardwareType.STRIP)
