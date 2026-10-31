@@ -368,7 +368,7 @@ fun HomeScreen(
                                     fontWeight = FontWeight.SemiBold
                                 )
                                 Text(
-                                    text = "v1.0.0",
+                                    text = "v1.0.1",
                                     color = TextMuted,
                                     fontSize = 11.sp,
                                     fontFamily = FontFamily.Monospace
