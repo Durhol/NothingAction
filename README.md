@@ -2,171 +2,182 @@
 
 <div align="center">
 
-![Nothing Action Header](docs/screenshots/home_screen.png)
+<img src="docs/assets/demo.gif" width="760" alt="Nothing Action Engine Live Showcase" />
 
-[![Platform](https://img.shields.io/badge/Platform-Android_8.0+_(API_26+)-red.svg?style=for-the-badge&logo=android)](https://www.android.com/)
-[![Target SDK](https://img.shields.io/badge/Target_SDK-35_(Android_15)-black.svg?style=for-the-badge&logo=android)](https://developer.android.com/)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21_(K2)-7F52FF.svg?style=for-the-badge&logo=kotlin)](https://kotlinlang.org/)
-[![Compose](https://img.shields.io/badge/Jetpack_Compose-Material_3-4285F4.svg?style=for-the-badge&logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
-[![Nothing OS](https://img.shields.io/badge/Designed_for-Nothing_OS-D71920.svg?style=for-the-badge)](https://nothing.tech)
+<br/>
 
-> **Monochrome Aesthetic • NDot 57 Typography • Bento Grid • iOS 18-Style Tactile Bezel Bump • Nothing Glyph Interface Binder**
+[![Platform](https://img.shields.io/badge/Platform-Android_8.0+_(API_26+)-111111?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
+[![Target SDK](https://img.shields.io/badge/Target_SDK-35_(Android_15)-000000?style=for-the-badge&logo=android&logoColor=D71920)](https://developer.android.com/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21_(K2)-1A1A1A?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![Compose](https://img.shields.io/badge/UI-Jetpack_Compose_M3-111111?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
+[![Nothing OS](https://img.shields.io/badge/Hardware-Nothing_Phone_(3a)-D71920?style=for-the-badge&logo=nothing&logoColor=white)](https://nothing.tech)
+
+**Monochrome Aesthetic • NDot 57 Typography • Bento Grid • iOS 18-Style Tactile Bezel Bump • Direct Glyph Interface Binder**
 
 </div>
 
 ---
 
-## Overview
+## 01 // OVERVIEW
 
-**Nothing Action** is a native Android engine designed specifically for **Nothing Phone** smartphones equipped with the dedicated physical **Essential Key** (ScanCode 250) and hardware action buttons.
+**Nothing Action** is a specialized native Android engine created for **Nothing Phone** devices equipped with the dedicated physical **Essential Key** (`ScanCode 250`) and remappable hardware action buttons.
 
-It enables high-speed hardware key remapping with 3 distinct trigger modes (`Single Press`, `Double Press`, `Long Press`), authentic Nothing OS Bento Grid aesthetics, direct hardware **Glyph Interface** pulse synchronization, and mechanical **iOS 18-style tactile bezel bump animations**.
+It replaces standard button limitations with high-speed, multi-tier hardware trigger detection (`Single Press`, `Double Press`, `Long Press`), authentic Nothing OS Bento Grid aesthetics, a physical **iOS 18-style mechanical bezel button protrusion**, and direct low-level **Nothing Glyph Interface** hardware synchronization.
 
 ---
 
-## Key Features
+## 02 // HARDWARE INTERCEPTOR & ACTIONS
 
-### 1. Hardware Essential Key Detection (ScanCode 250)
-- Low-level physical hardware interceptor for Nothing's dedicated **Essential Key** (`scanCode = 250`).
-- Smart multi-press state machine:
-  - `Single Press` (Quick trigger)
-  - `Double Press` (Pulse sequence)
-  - `Long Press` (Hold with tension feedback)
-- Zero touch interference — trusted system accessibility layer (`TYPE_ACCESSIBILITY_OVERLAY`).
+### Physical Trigger Mapping (ScanCode 250)
+- Low-level kernel scan-code listener for Nothing's dedicated **Essential Key** (`scanCode = 250`).
+- Multi-click state machine with micro-second resolution:
+  - `SINGLE PRESS` • Quick execution trigger (280ms resolution window)
+  - `DOUBLE PRESS` • Rapid dual-pulse trigger
+  - `LONG PRESS` • Hold and tension stretch trigger
 
-### 2. Supported Actions
-- ⚡ **Flashlight Toggle** (`Rear LED Torch via CameraManager`)
-- 📷 **Instant Viewfinder** (`Camera launch`)
-- 🎙️ **Voice Assistant** (`Google Assistant speech recognition hands-free`)
-- 📸 **Screen Capture** (`Accessibility Global Action screenshot`)
-- 💡 **Nothing Glyph Interface Pulse** (`Real hardware LED matrix control`)
-- 🚀 **Custom App Launcher** (`Launch any installed Android package`)
+### Action Matrix
+- `[TORCH]` • Instant rear LED flashlight toggle via `CameraManager`
+- `[CAMERA]` • Rapid viewfinder launch with lock-screen bypass
+- `[ASSISTANT]` • Google Voice Assistant speech recognition (`HandsFreeActivity` prompt)
+- `[SCREENSHOT]` • Instant screen capture via Accessibility global action
+- `[GLYPH]` • Physical rear Glyph LED interface synchronized rhythm pulse
+- `[CUSTOM_APP]` • Launch any user-selected third-party application package
 
-### 3. iOS 18-Style Tactile Bezel Button Animation
-- **100% Solid Opaque OLED Black (`#000000`)** mechanical button protrusion bump along the screen edge.
-- Smooth Bézier capsule geometry simulating a physical button pressing into the display.
-- Fully customizable via **Settings**:
-  - Edge selection (`Right Bezel` vs `Left Bezel`)
+---
+
+## 03 // MECHANICAL BEZEL BUTTON ANIMATION (iOS 18 STYLE)
+
+- **100% Solid Opaque OLED Black (`#000000`)**: Zero translucency, zero borders, zero background dimming.
+- **Physical Mechanical Capsule Geometry**: A rounded pill-shaped button protrusion expanding out from the bezel into the display using cubic Bézier curves and spring-back physics (`OvershootInterpolator`).
+- **Trusted System Layer**: Renders through `TYPE_ACCESSIBILITY_OVERLAY`, bypassing Android's untrusted overlay opacity filters on both the home screen (wallpaper) and the lock screen.
+- **Dynamic Lifecycle**: Window attaches strictly during the 300ms press animation and detaches immediately on completion, preventing any touch screen interference.
+- **Full Calibration Controls**:
+  - Edge selection (`RIGHT BEZEL` / `LEFT BEZEL`)
   - Vertical alignment slider (15% to 85% of screen height)
   - Button length (height) & bump protrusion depth (width)
-  - Instant live test button directly on screen.
-
-### 4. Direct Nothing Glyph Interface Integration
-- Built-in binder client connecting directly to `com.nothing.thirdparty.GlyphService` (`IGlyphService`).
-- Uses official transaction protocol (`registerSDK`, `openSession`, `setFrameColors`, `setMatrixColors`).
-- Physical Glyph LEDs illuminate in rhythm when triggers fire.
-
-### 5. Authentic Nothing OS & Glyphify Design System
-- Free-standing high-resolution device renders sourced from official Glyphify assets.
-- Auto-detection of device color (`Dark`, `White`, `Blue`).
-- True OLED Black `#000000`, card surfaces `#111111`, borders `#262626`, Nothing Red `#D71920`.
-- Authentic **NDot 57** dot-matrix brand typography with full Latin and Cyrillic support.
-- Balanced Bento Grid tiles with equal-height symmetrical layouts.
+  - Instant live test execution button
 
 ---
 
-## Supported Devices
+## 04 // DIRECT NOTHING GLYPH BINDER INTEGRATION
 
-| Device | Codename | Glyph LEDs | Dedicated Essential Key |
-|---|---|:---:|:---:|
-| **Nothing Phone (3a)** | `ASTEROIDS` | 36 LEDs | ✅ |
-| **Nothing Phone (3a) Pro** | `ASTEROIDS PRO` | 36 LEDs | ✅ |
-| **Nothing Phone (3a) Lite** | `ASTEROIDS LITE` | 26 LEDs | ✅ |
-| **Nothing Phone (3)** | `METROID` | 625 Dots (Matrix) | ✅ |
-| **Nothing Phone (4a) & (4a) Pro** | `TETRIS` | 6 / 169 LEDs | ✅ |
-| **Nothing Phone (2a) & (2a) Plus** | `PACMAN` | 26 LEDs | Hardware Keys |
-| **Nothing Phone (2)** | `PONG` | 33 LEDs | Hardware Keys |
-| **Nothing Phone (1)** | `SPACEWAR` | 15 LEDs | Hardware Keys |
+Direct client implementation connecting to the privileged system broker:
+```
+Service:    com.nothing.thirdparty.GlyphService
+Action:     com.nothing.thirdparty.bind_glyphservice
+Interface:  com.nothing.thirdparty.IGlyphService
+Permission: com.nothing.ketchum.permission.ENABLE (normal)
+```
+
+- Drives LED brightness channels (0–4096 scale) via Transaction 1 (`setFrameColors`) and Transaction 7 (`setMatrixColors`).
+- Authenticates without proprietary API keys on modern Nothing OS builds.
+- Synchronizes tactile vibration waveforms with physical LED animations.
 
 ---
 
-## Architecture & Tech Stack
+## 05 // COMPATIBILITY MATRIX
+
+| Model | Codename | Glyph LEDs | Dedicated Essential Key | Primary Trigger |
+|---|---|:---:|:---:|---|
+| **Nothing Phone (3a)** | `ASTEROIDS` | 36 LEDs | YES | `ScanCode 250` (Essential) |
+| **Nothing Phone (3a) Pro** | `ASTEROIDS PRO` | 36 LEDs | YES | `ScanCode 250` (Essential) |
+| **Nothing Phone (3a) Lite** | `ASTEROIDS LITE` | 26 LEDs | YES | `ScanCode 250` (Essential) |
+| **Nothing Phone (3)** | `METROID` | 625 Dots (Matrix) | YES | `ScanCode 250` / Action |
+| **Nothing Phone (4a) & (4a) Pro** | `TETRIS` | 6 / 169 LEDs | YES | `ScanCode 250` / Action |
+| **Nothing Phone (2a) & (2a) Plus** | `PACMAN` | 26 LEDs | NO | Hardware Keys |
+| **Nothing Phone (2)** | `PONG` | 33 LEDs | NO | Hardware Keys |
+| **Nothing Phone (1)** | `SPACEWAR` | 15 LEDs | NO | Hardware Keys |
+
+---
+
+## 06 // ARCHITECTURE & MODULES
 
 ```
 NothingAction/
 ├── app/
 │   ├── src/main/
 │   │   ├── java/com/nothing/action/
-│   │   │   ├── MainActivity.kt                  # Single Activity Compose NavHost
-│   │   │   ├── NothingActionApp.kt              # App initialisation & service bootstrap
+│   │   │   ├── MainActivity.kt                # Edge-to-Edge Compose NavHost
+│   │   │   ├── NothingActionApp.kt            # App bootstrap & foreground service starter
 │   │   │   ├── core/
 │   │   │   │   ├── data/
-│   │   │   │   │   └── ActionPreferencesRepository.kt # Jetpack DataStore Preferences
+│   │   │   │   │   └── ActionPreferencesRepository.kt # Reactive DataStore settings
 │   │   │   │   └── model/
-│   │   │   │       ├── ActionType.kt            # Available triggers and actions
-│   │   │   │       ├── PressType.kt             # Single, Double, Long press types
-│   │   │   │       └── DeviceModel.kt           # Nothing device model detector
+│   │   │   │       ├── ActionType.kt          # Action definitions & executor dispatch
+│   │   │   │       ├── PressType.kt           # SINGLE, DOUBLE, LONG definitions
+│   │   │   │       └── DeviceModel.kt         # Hardware model detector (A059, A142, A065...)
 │   │   │   ├── glyph/
-│   │   │   │   └── NothingGlyphController.kt    # Direct Binder client to Nothing Glyph service
+│   │   │   │   └── NothingGlyphController.kt  # Direct AIDL binder client to GlyphService
 │   │   │   ├── service/
-│   │   │   │   ├── NothingAccessibilityService.kt # Hardware key event filter (ScanCode 250)
-│   │   │   │   ├── NothingForegroundService.kt  # Keep-alive notification service
-│   │   │   │   └── ActionExecutor.kt            # Execution engine (Assistant, Torch, Camera)
+│   │   │   │   ├── NothingAccessibilityService.kt # Kernel key interceptor (ScanCode 250)
+│   │   │   │   ├── NothingForegroundService.kt # FGS with quick status notification
+│   │   │   │   └── ActionExecutor.kt          # Assistant, torch, camera execution engine
 │   │   │   ├── overlay/
-│   │   │   │   ├── BezelBendView.kt             # iOS 18-style mechanical bump canvas
-│   │   │   │   └── BezelBendOverlayManager.kt   # WindowManager overlay lifecycle
+│   │   │   │   ├── BezelBendView.kt           # iOS 18 mechanical button bump canvas
+│   │   │   │   └── BezelBendOverlayManager.kt # Trusted accessibility overlay lifecycle
 │   │   │   └── ui/
-│   │   │       ├── home/ (HomeScreen, HomeViewModel)
-│   │   │       ├── onboarding/ (OnboardingScreen)
-│   │   │       ├── settings/ (SettingsScreen)
-│   │   │       ├── about/ (AboutScreen)
-│   │   │       ├── components/ (DeviceVisualizer, BentoCard, DotMatrixHeader)
-│   │   │       └── theme/ (Color, Theme, Type)
-│   │   └── res/                                 # Drawables, NDot 57 fonts, configs
+│   │   │       ├── home/                      # Free-standing Glyphify hero & Bento grid
+│   │   │       ├── onboarding/                # 3-step setup & key detector wizard
+│   │   │       ├── settings/                  # Hardware calibration & permission checks
+│   │   │       ├── about/                     # Ecosystem notes & developer links
+│   │   │       ├── components/                # BentoCard, DotMatrixHeader, ActionPicker
+│   │   │       └── theme/                     # Pure OLED Black, Nothing Red, NDot 57
+│   │   └── res/                               # Glyphify device assets, NDot OTF fonts
 │   └── build.gradle.kts
 └── gradle/
-    └── libs.versions.toml                       # Version Catalog
+    └── libs.versions.toml                     # Dependency version catalog
 ```
 
 ---
 
-## Build & Installation
+## 07 // BUILD & DEPLOYMENT
 
 ### Prerequisites
-- **Android Studio Ladybug (2024.2+)** or newer
-- **JDK 21**
-- **Android SDK 35**
+- JDK 21
+- Android SDK 35 (Android 15)
+- Gradle 8.9 + AGP 8.7.2
 
-### Build via Command Line
+### Compile Debug APK
 ```bash
 # Clone the repository
 git clone https://github.com/Durhol/NothingAction.git
 cd NothingAction
 
-# Compile debug APK
+# Assemble APK
 ./gradlew assembleDebug
 
 # Run unit tests
 ./gradlew test
 ```
 
-The compiled APK will be located at:
+The APK binary will be output to:
 `app/build/outputs/apk/debug/app-debug.apk`
 
-### Install to device via ADB
+### Install to Device via ADB
 ```bash
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
 ---
 
-## Permissions Setup
+## 08 // FIRST LAUNCH SETUP
 
-After the first launch, complete the quick 3-step setup wizard:
-1. **Accessibility Service**: Required to intercept physical hardware clicks (ScanCode 250).
-2. **Display Overlay**: Required to render the tactile mechanical bezel button bump animation.
-3. **Battery Optimization Exemption**: Prevents Android from killing the background listener in Doze mode.
-
----
-
-## Developer & Community
-
-- **Developer**: [@Tyxap](https://t.me/Tyxap) on Telegram
-- **GitHub**: [github.com/Durhol/NothingAction](https://github.com/Durhol/NothingAction)
+1. **Accessibility Service**: Enable `Nothing Action Key Interceptor` to receive hardware key events.
+2. **Display Overlay**: Grant overlay permission for the mechanical bezel button bump animation.
+3. **Battery Exemption**: Add to Doze mode exemption list for uninterrupted background operation.
+4. **Key Calibration**: Press your physical Essential Key to automatically verify ScanCode 250.
 
 ---
 
-## License
+## 09 // DEVELOPER & CREDITS
 
-This project is licensed under the [MIT License](LICENSE).
+- **Author & Developer**: [Durhol](https://github.com/Durhol)
+- **Telegram**: [@Tyxap](https://t.me/Tyxap)
+- **Repository**: [github.com/Durhol/NothingAction](https://github.com/Durhol/NothingAction)
+
+---
+
+## 10 // LICENSE
+
+Licensed under the [MIT License](LICENSE).  
 Nothing, Nothing Phone, Glyph Interface, and Nothing OS are trademarks of Nothing Technology Limited.
