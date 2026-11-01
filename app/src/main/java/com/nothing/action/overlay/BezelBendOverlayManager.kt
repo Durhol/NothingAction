@@ -18,18 +18,43 @@ class BezelBendOverlayManager(private val context: Context, private val isAccess
     private var currentYPercent = 0.38f
     private var currentButtonLengthDp = 95f
     private var currentButtonWidthDp = 24f
+    private var currentCornerRadiusDp = 12f
+    private var currentFillColorHex = "#000000"
+    private var currentStrokeEnabled = false
+    private var currentStrokeWidthDp = 1.5f
+    private var currentStrokeColorHex = "#333333"
 
     fun updateCalibration(
         side: String,
         yPercent: Float,
         buttonLengthDp: Float,
-        buttonWidthDp: Float
+        buttonWidthDp: Float,
+        cornerRadiusDp: Float = 12f,
+        fillColorHex: String = "#000000",
+        strokeEnabled: Boolean = false,
+        strokeWidthDp: Float = 1.5f,
+        strokeColorHex: String = "#333333"
     ) {
         currentSide = side
         currentYPercent = yPercent
         currentButtonLengthDp = buttonLengthDp
         currentButtonWidthDp = buttonWidthDp
-        overlayView?.updateCalibration(side, buttonLengthDp, buttonWidthDp)
+        currentCornerRadiusDp = cornerRadiusDp
+        currentFillColorHex = fillColorHex
+        currentStrokeEnabled = strokeEnabled
+        currentStrokeWidthDp = strokeWidthDp
+        currentStrokeColorHex = strokeColorHex
+
+        overlayView?.updateCalibration(
+            side = side,
+            buttonLengthDp = buttonLengthDp,
+            buttonWidthDp = buttonWidthDp,
+            cornerRadiusDp = cornerRadiusDp,
+            fillColorHex = fillColorHex,
+            strokeEnabled = strokeEnabled,
+            strokeWidthDp = strokeWidthDp,
+            strokeColorHex = strokeColorHex
+        )
     }
 
     private fun attachOverlay() {
@@ -40,14 +65,23 @@ class BezelBendOverlayManager(private val context: Context, private val isAccess
         val displayHeight = context.resources.displayMetrics.heightPixels
 
         overlayView = BezelBendView(context).apply {
-            updateCalibration(currentSide, currentButtonLengthDp, currentButtonWidthDp)
+            updateCalibration(
+                side = currentSide,
+                buttonLengthDp = currentButtonLengthDp,
+                buttonWidthDp = currentButtonWidthDp,
+                cornerRadiusDp = currentCornerRadiusDp,
+                fillColorHex = currentFillColorHex,
+                strokeEnabled = currentStrokeEnabled,
+                strokeWidthDp = currentStrokeWidthDp,
+                strokeColorHex = currentStrokeColorHex
+            )
             onAnimationFinished = {
                 detach()
             }
         }
 
-        val overlayWidthPx = ((currentButtonWidthDp + 25f) * density).toInt().coerceAtLeast(80)
-        val overlayHeightPx = ((currentButtonLengthDp + 30f) * density).toInt().coerceAtLeast(150)
+        val overlayWidthPx = ((currentButtonWidthDp + 45f) * density).toInt().coerceAtLeast(120)
+        val overlayHeightPx = ((currentButtonLengthDp + (currentCornerRadiusDp * 2f) + 40f) * density).toInt().coerceAtLeast(180)
         val isRight = currentSide.equals("RIGHT", ignoreCase = true)
         val gravity = (if (isRight) Gravity.END else Gravity.START) or Gravity.TOP
         val targetY = (displayHeight * currentYPercent - (overlayHeightPx / 2)).toInt().coerceAtLeast(0)

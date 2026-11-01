@@ -121,7 +121,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun testBezelBend() {
         val s = _uiState.value.settings
-        overlayManager.updateCalibration(s.bezelSide, s.bezelYPercent, s.bezelButtonLength, s.bezelButtonWidth)
+        overlayManager.updateCalibration(
+            side = s.bezelSide,
+            yPercent = s.bezelYPercent,
+            buttonLengthDp = s.bezelButtonLength,
+            buttonWidthDp = s.bezelButtonWidth,
+            cornerRadiusDp = s.bezelCornerRadius,
+            fillColorHex = s.bezelFillColor,
+            strokeEnabled = s.bezelStrokeEnabled,
+            strokeWidthDp = s.bezelStrokeWidth,
+            strokeColorHex = s.bezelStrokeColor
+        )
         overlayManager.triggerBezelAnimation(PressType.DOUBLE)
     }
 

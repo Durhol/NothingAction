@@ -60,7 +60,12 @@ class NothingAccessibilityService : AccessibilityService() {
                     side = settings.bezelSide,
                     yPercent = settings.bezelYPercent,
                     buttonLengthDp = settings.bezelButtonLength,
-                    buttonWidthDp = settings.bezelButtonWidth
+                    buttonWidthDp = settings.bezelButtonWidth,
+                    cornerRadiusDp = settings.bezelCornerRadius,
+                    fillColorHex = settings.bezelFillColor,
+                    strokeEnabled = settings.bezelStrokeEnabled,
+                    strokeWidthDp = settings.bezelStrokeWidth,
+                    strokeColorHex = settings.bezelStrokeColor
                 )
             }
         }

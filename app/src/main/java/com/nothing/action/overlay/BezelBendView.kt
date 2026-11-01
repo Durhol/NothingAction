@@ -12,11 +12,16 @@ import com.nothing.action.core.model.PressType
 
 class BezelBendView(context: Context) : View(context) {
 
-    // 100% solid, fully opaque pitch black - PorterDuff.Mode.SRC forces absolute zero transparency
     private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = 0xFF000000.toInt() // Solid #000000 with 255 alpha
+        color = 0xFF000000.toInt()
         style = Paint.Style.FILL
         xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC)
+    }
+
+    private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeWidth = 2f
+        color = Color.parseColor("#333333")
     }
 
     private val path = Path()
@@ -26,12 +31,13 @@ class BezelBendView(context: Context) : View(context) {
     private val density: Float = context.resources.displayMetrics.density
     private var isRightSide = true
     private var configuredButtonLengthDp = 95f
-    private var configuredButtonWidthDp = 26f // Solid, prominent protrusion
+    private var configuredButtonWidthDp = 24f
+    private var configuredCornerRadiusDp = 12f
+    private var configuredStrokeEnabled = false
 
     var onAnimationFinished: (() -> Unit)? = null
 
     init {
-        // Explicitly clear any theme window background or elevation shadow
         setBackgroundColor(Color.TRANSPARENT)
         elevation = 0f
     }
@@ -41,11 +47,36 @@ class BezelBendView(context: Context) : View(context) {
     fun updateCalibration(
         side: String,
         buttonLengthDp: Float,
-        buttonWidthDp: Float
+        buttonWidthDp: Float,
+        cornerRadiusDp: Float = 12f,
+        fillColorHex: String = "#000000",
+        strokeEnabled: Boolean = false,
+        strokeWidthDp: Float = 1.5f,
+        strokeColorHex: String = "#333333"
     ) {
         this.isRightSide = side.equals("RIGHT", ignoreCase = true)
-        this.configuredButtonLengthDp = buttonLengthDp.coerceIn(50f, 220f)
-        this.configuredButtonWidthDp = buttonWidthDp.coerceIn(12f, 60f)
+        this.configuredButtonLengthDp = buttonLengthDp.coerceIn(40f, 320f)
+        this.configuredButtonWidthDp = buttonWidthDp.coerceIn(8f, 75f)
+        this.configuredCornerRadiusDp = cornerRadiusDp.coerceIn(2f, 36f)
+        this.configuredStrokeEnabled = strokeEnabled
+
+        try {
+            val colorInt = Color.parseColor(fillColorHex)
+            fillPaint.color = colorInt
+        } catch (_: Exception) {
+            fillPaint.color = 0xFF000000.toInt()
+        }
+
+        if (strokeEnabled) {
+            try {
+                strokePaint.color = Color.parseColor(strokeColorHex)
+                strokePaint.strokeWidth = strokeWidthDp.coerceIn(0.5f, 6f) * density
+            } catch (_: Exception) {
+                strokePaint.color = Color.parseColor("#333333")
+                strokePaint.strokeWidth = 1.5f * density
+            }
+        }
+
         invalidate()
     }
 
@@ -124,8 +155,7 @@ class BezelBendView(context: Context) : View(context) {
         val topY = centerY - (buttonLengthPx / 2f)
         val bottomY = centerY + (buttonLengthPx / 2f)
 
-        // iOS 18 mechanical button bump geometry - completely solid, non-transparent
-        val r = (10f * density).coerceAtMost(currentDepth * 0.8f)
+        val r = (configuredCornerRadiusDp * density).coerceAtMost(currentDepth * 0.9f)
 
         if (isRightSide) {
             val rightEdge = w
@@ -165,7 +195,12 @@ class BezelBendView(context: Context) : View(context) {
             path.close()
         }
 
-        // Draw with 100% solid opacity replacing destination buffer
+        // Draw solid fill
         canvas.drawPath(path, fillPaint)
+
+        // Draw optional stroke outline
+        if (configuredStrokeEnabled) {
+            canvas.drawPath(path, strokePaint)
+        }
     }
 }

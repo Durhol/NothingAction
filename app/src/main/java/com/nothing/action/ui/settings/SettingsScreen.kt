@@ -243,7 +243,18 @@ fun SettingsScreen(
                 val currentSide = settings?.bezelSide ?: "RIGHT"
                 val currentYPercent = settings?.bezelYPercent ?: 0.38f
                 val currentButtonLength = settings?.bezelButtonLength ?: 95f
-                val currentButtonWidth = settings?.bezelButtonWidth ?: 20f
+                val currentButtonWidth = settings?.bezelButtonWidth ?: 22f
+                val currentCornerRadius = settings?.bezelCornerRadius ?: 12f
+                val currentFillColor = settings?.bezelFillColor ?: "#000000"
+                val currentStrokeEnabled = settings?.bezelStrokeEnabled ?: false
+                val currentStrokeWidth = settings?.bezelStrokeWidth ?: 1.5f
+                val currentStrokeColor = settings?.bezelStrokeColor ?: "#333333"
+
+                var sliderYPercent by remember(currentYPercent) { mutableFloatStateOf(currentYPercent) }
+                var sliderLength by remember(currentButtonLength) { mutableFloatStateOf(currentButtonLength) }
+                var sliderWidth by remember(currentButtonWidth) { mutableFloatStateOf(currentButtonWidth) }
+                var sliderRadius by remember(currentCornerRadius) { mutableFloatStateOf(currentCornerRadius) }
+                var sliderStrokeWidth by remember(currentStrokeWidth) { mutableFloatStateOf(currentStrokeWidth) }
 
                 Box(
                     modifier = Modifier
@@ -273,7 +284,10 @@ fun SettingsScreen(
                             Button(
                                 onClick = {
                                     coroutineScope.launch {
-                                        repository.setBezelCalibration("RIGHT", currentYPercent, currentButtonLength, currentButtonWidth)
+                                        repository.setBezelCalibration(
+                                            "RIGHT", sliderYPercent, sliderLength, sliderWidth,
+                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                        )
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
@@ -289,7 +303,10 @@ fun SettingsScreen(
                             Button(
                                 onClick = {
                                     coroutineScope.launch {
-                                        repository.setBezelCalibration("LEFT", currentYPercent, currentButtonLength, currentButtonWidth)
+                                        repository.setBezelCalibration(
+                                            "LEFT", sliderYPercent, sliderLength, sliderWidth,
+                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                        )
                                     }
                                 },
                                 colors = ButtonDefaults.buttonColors(
@@ -311,20 +328,24 @@ fun SettingsScreen(
                             ) {
                                 Text(text = "VERTICAL ALIGNMENT", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
                                 Text(
-                                    text = "${(currentYPercent * 100).toInt()}% HEIGHT",
+                                    text = "${(sliderYPercent * 100).toInt()}% HEIGHT",
                                     color = TextWhite,
                                     fontSize = 11.sp,
                                     fontFamily = NdotFont
                                 )
                             }
                             Slider(
-                                value = currentYPercent,
-                                onValueChange = {
+                                value = sliderYPercent,
+                                onValueChange = { sliderYPercent = it },
+                                onValueChangeFinished = {
                                     coroutineScope.launch {
-                                        repository.setBezelCalibration(currentSide, it, currentButtonLength, currentButtonWidth)
+                                        repository.setBezelCalibration(
+                                            currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                        )
                                     }
                                 },
-                                valueRange = 0.15f..0.85f,
+                                valueRange = 0.10f..0.90f,
                                 colors = SliderDefaults.colors(
                                     thumbColor = NothingRed,
                                     activeTrackColor = NothingRed,
@@ -333,28 +354,32 @@ fun SettingsScreen(
                             )
                         }
 
-                        // Button Length (Height) slider
+                        // Button Length (Height) slider (expanded 40..300dp)
                         Column {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(text = "BUTTON LENGTH (HEIGHT)", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
+                                Text(text = "BUTTON HEIGHT (LENGTH)", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
                                 Text(
-                                    text = "${currentButtonLength.toInt()} DP",
+                                    text = "${sliderLength.toInt()} DP",
                                     color = TextWhite,
                                     fontSize = 11.sp,
                                     fontFamily = NdotFont
                                 )
                             }
                             Slider(
-                                value = currentButtonLength,
-                                onValueChange = {
+                                value = sliderLength,
+                                onValueChange = { sliderLength = it },
+                                onValueChangeFinished = {
                                     coroutineScope.launch {
-                                        repository.setBezelCalibration(currentSide, currentYPercent, it, currentButtonWidth)
+                                        repository.setBezelCalibration(
+                                            currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                        )
                                     }
                                 },
-                                valueRange = 50f..200f,
+                                valueRange = 40f..300f,
                                 colors = SliderDefaults.colors(
                                     thumbColor = NothingRed,
                                     activeTrackColor = NothingRed,
@@ -363,40 +388,232 @@ fun SettingsScreen(
                             )
                         }
 
-                        // Button Protrusion Width (Depth) slider
+                        // Button Protrusion Width (Depth) slider (expanded 8..70dp)
                         Column {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(text = "BUMP PROTRUSION WIDTH", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
+                                Text(text = "PROTRUSION DEPTH (WIDTH)", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
                                 Text(
-                                    text = "${currentButtonWidth.toInt()} DP",
+                                    text = "${sliderWidth.toInt()} DP",
                                     color = TextWhite,
                                     fontSize = 11.sp,
                                     fontFamily = NdotFont
                                 )
                             }
                             Slider(
-                                value = currentButtonWidth,
-                                onValueChange = {
+                                value = sliderWidth,
+                                onValueChange = { sliderWidth = it },
+                                onValueChangeFinished = {
                                     coroutineScope.launch {
-                                        repository.setBezelCalibration(currentSide, currentYPercent, currentButtonLength, it)
+                                        repository.setBezelCalibration(
+                                            currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                        )
                                     }
                                 },
-                                valueRange = 8f..45f,
+                                valueRange = 8f..70f,
                                 colors = SliderDefaults.colors(
                                     thumbColor = NothingRed,
                                     activeTrackColor = NothingRed,
                                     inactiveTrackColor = Color(0xFF2E2E2E)
                                 )
                             )
+                        }
+
+                        // Corner Radius Slider (2..36dp)
+                        Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(text = "CORNER ROUNDING (RADIUS)", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
+                                Text(
+                                    text = "${sliderRadius.toInt()} DP",
+                                    color = TextWhite,
+                                    fontSize = 11.sp,
+                                    fontFamily = NdotFont
+                                )
+                            }
+                            Slider(
+                                value = sliderRadius,
+                                onValueChange = { sliderRadius = it },
+                                onValueChangeFinished = {
+                                    coroutineScope.launch {
+                                        repository.setBezelCalibration(
+                                            currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                        )
+                                    }
+                                },
+                                valueRange = 2f..36f,
+                                colors = SliderDefaults.colors(
+                                    thumbColor = NothingRed,
+                                    activeTrackColor = NothingRed,
+                                    inactiveTrackColor = Color(0xFF2E2E2E)
+                                )
+                            )
+                        }
+
+                        // Button Fill Color Selector
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(text = "BUTTON FILL COLOR", color = TextMuted, fontSize = 11.sp, fontFamily = NdotFont)
+                            val fillColors = listOf(
+                                Pair("#000000", "OLED BLACK"),
+                                Pair("#1F1F1F", "DARK GRAPHITE"),
+                                Pair("#D71920", "NOTHING RED"),
+                                Pair("#FFFFFF", "PURE WHITE")
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                fillColors.forEach { (hex, label) ->
+                                    val isSelected = currentFillColor.equals(hex, ignoreCase = true)
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .background(if (isSelected) NothingRed else Color(0xFF1E1E1E))
+                                            .clickable {
+                                                coroutineScope.launch {
+                                                    repository.setBezelCalibration(
+                                                        currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                                        sliderRadius, hex, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                                    )
+                                                }
+                                            }
+                                            .padding(vertical = 8.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = label.split(" ").last(),
+                                            color = TextWhite,
+                                            fontSize = 9.sp,
+                                            fontFamily = NdotFont,
+                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // Outline Stroke Option
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text(text = "OUTLINE BORDER STROKE", color = TextWhite, fontSize = 12.sp, fontFamily = NdotFont)
+                                    Text(text = "Draws accent contour around the mechanical button", color = TextMuted, fontSize = 10.sp)
+                                }
+                                Switch(
+                                    checked = currentStrokeEnabled,
+                                    onCheckedChange = {
+                                        coroutineScope.launch {
+                                            repository.setBezelCalibration(
+                                                currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                                sliderRadius, currentFillColor, it, sliderStrokeWidth, currentStrokeColor
+                                            )
+                                        }
+                                    },
+                                    colors = SwitchDefaults.colors(
+                                        checkedThumbColor = TextWhite,
+                                        checkedTrackColor = NothingRed,
+                                        uncheckedThumbColor = TextMuted,
+                                        uncheckedTrackColor = Color(0xFF222222)
+                                    )
+                                )
+                            }
+
+                            if (currentStrokeEnabled) {
+                                // Stroke Width
+                                Column {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Text(text = "STROKE THICKNESS", color = TextMuted, fontSize = 10.sp, fontFamily = NdotFont)
+                                        Text(text = "${String.format(java.util.Locale.US, "%.1f", sliderStrokeWidth)} DP", color = TextWhite, fontSize = 10.sp, fontFamily = NdotFont)
+                                    }
+                                    Slider(
+                                        value = sliderStrokeWidth,
+                                        onValueChange = { sliderStrokeWidth = it },
+                                        onValueChangeFinished = {
+                                            coroutineScope.launch {
+                                                repository.setBezelCalibration(
+                                                    currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                                    sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, currentStrokeColor
+                                                )
+                                            }
+                                        },
+                                        valueRange = 0.5f..5.0f,
+                                        colors = SliderDefaults.colors(
+                                            thumbColor = NothingRed,
+                                            activeTrackColor = NothingRed,
+                                            inactiveTrackColor = Color(0xFF2E2E2E)
+                                        )
+                                    )
+                                }
+
+                                // Stroke Color
+                                val strokeColors = listOf(
+                                    Pair("#333333", "SUBTLE"),
+                                    Pair("#666666", "GRAY"),
+                                    Pair("#D71920", "RED"),
+                                    Pair("#FFFFFF", "WHITE")
+                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    strokeColors.forEach { (hex, label) ->
+                                        val isSelected = currentStrokeColor.equals(hex, ignoreCase = true)
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .clip(RoundedCornerShape(8.dp))
+                                                .background(if (isSelected) NothingRed else Color(0xFF1E1E1E))
+                                                .clickable {
+                                                    coroutineScope.launch {
+                                                        repository.setBezelCalibration(
+                                                            currentSide, sliderYPercent, sliderLength, sliderWidth,
+                                                            sliderRadius, currentFillColor, currentStrokeEnabled, sliderStrokeWidth, hex
+                                                        )
+                                                    }
+                                                }
+                                                .padding(vertical = 6.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = label,
+                                                color = TextWhite,
+                                                fontSize = 9.sp,
+                                                fontFamily = NdotFont
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         // Test Bezel Bend Button
                         Button(
                             onClick = {
-                                overlayManager.updateCalibration(currentSide, currentYPercent, currentButtonLength, currentButtonWidth)
+                                overlayManager.updateCalibration(
+                                    side = currentSide,
+                                    yPercent = sliderYPercent,
+                                    buttonLengthDp = sliderLength,
+                                    buttonWidthDp = sliderWidth,
+                                    cornerRadiusDp = sliderRadius,
+                                    fillColorHex = currentFillColor,
+                                    strokeEnabled = currentStrokeEnabled,
+                                    strokeWidthDp = sliderStrokeWidth,
+                                    strokeColorHex = currentStrokeColor
+                                )
                                 overlayManager.triggerBezelAnimation(PressType.DOUBLE)
                             },
                             colors = ButtonDefaults.buttonColors(

@@ -117,7 +117,7 @@ fun AboutScreen(
                         )
 
                         Text(
-                            text = "VERSION 1.0.1 // 2026",
+                            text = "VERSION 1.0.2 // 2026",
                             color = NothingRed,
                             fontFamily = NdotFont,
                             fontWeight = FontWeight.SemiBold,
